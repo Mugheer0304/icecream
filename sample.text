@@ -1,8 +1,88 @@
-i  
-the devops tool
-terraform
-docker
-aws 
-azure
-linux
+⚙️ Core DevOps Tools by Category
 
+Git, GitHub, GitLab, Bitbucket
+Description:
+            The foundation of DevOps, used for version control, collaboration, and tracking code changes. 
+             Git is the dominant system, with platforms like GitHub and GitLab adding collaboration and CI/CD features.
+
+ Continuous Integration (CI):  
+ 
+             Jenkins, GitHub Actions, GitLab CI/CD, CircleCI, TeamCity, Azure DevOps, 
+
+  Description:  
+               Automates the process of building and testing code every time a developer pushes a change, 
+               providing rapid feedback and catching bugs early.
+               Jenkins is a leading open-source option,
+               while GitHub Actions and GitLab CI are popular for their deep integration with their respective platform
+
+
+Configuration Management & Infrastructure as Code (IaC):
+
+                             Terraform, Ansible, Puppet, Chef, SaltStack
+                             
+  Description:  
+
+                Used to automate the provisioning and management of infrastructure. Terraform is the go-to tool for IaC,
+                allowing you to define cloud resources in code.
+                Ansible, Puppet, and Chef are configuration management tools that ensure servers are configured consistentl
+
+  
+  
+  Containerization & Orchestration:
+                                  Docker, 
+                                  Kubernetes,
+                                  Podman, 
+                                  Containerd	
+                                  Containerization (Docker)
+
+                                  
+                                  packages applications and their dependencies into isolated, 
+                                  portable units. Orchestration (Kubernetes) manages these containers at scale, 
+                                  handling deployment, scaling, and networking. Kubernetes is the industry standard.
+
+
+                                  
+Monitoring,Observabilit & Logging:
+
+                                Prometheus,
+                                Grafana,
+                                Datadog, New Relic,
+                                ELK Stack, 
+                                Loki
+                                These tools provide visibility into application and infrastructure performance,
+                                helping teams detect and debug issues.
+                                Prometheus and Grafana are a popular open-source pair for metrics and dashboards,
+                                while Datadog and New Relic are commercial observability platforms. The ELK Stack (Elasticsearch, Logstash, Kibana) is a classic solution for log management and analysis.
+Testing	Selenium, JUnit, Cypress, 
+TestComplete, Cucumber, 
+
+Postman	Automates different types of testing to ensure software quality. JUnit is for unit testing Java applications, Selenium is for web application UI testing, and Postman is widely used for testing APIs.
+Security (DevSecOps)	
+
+
+Snyk, SonarQube, Veracode, Checkmarx, Aqua Security, HashiCorp Vault	Integrates security into the DevOps pipeline.
+
+
+
+Snyk and SonarQube scan code and dependencies for vulnerabilities, 
+
+
+while Vault is used for managing secrets like API keys and passwords.
+Collaboration & Project Management	
+
+
+Jira,
+Asana, 
+Trello, 
+Slack,
+Microsoft Teams	
+Facilitates communication, planning, 
+and tracking of work within and between teams. 
+Jira is a popular choice for issue tracking and agile project management.
+
+
+  
+
+
+
+               
