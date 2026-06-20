@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scoops & Smiles 🍦</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --pink:   #FF6FA8;
+      --yellow: #FFD95A;
+      --mint:   #6EDDC9;
+      --peach:  #FFB347;
+      --lavender: #C9A7FF;
+      --brown:  #7B4F2E;
+      --cream:  #FFF8F0;
+      --dark:   #2D1B00;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ── SPRINKLE BG ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle 3px at 10% 20%, var(--pink) 100%, transparent 0),
+        radial-gradient(circle 2px at 30% 60%, var(--mint) 100%, transparent 0),
+        radial-gradient(circle 3px at 55% 15%, var(--yellow) 100%, transparent 0),
+        radial-gradient(circle 2px at 75% 40%, var(--lavender) 100%, transparent 0),
+        radial-gradient(circle 3px at 90% 70%, var(--peach) 100%, transparent 0),
+        radial-gradient(circle 2px at 20% 80%, var(--pink) 100%, transparent 0),
+        radial-gradient(circle 3px at 60% 85%, var(--mint) 100%, transparent 0),
+        radial-gradient(circle 2px at 85% 10%, var(--yellow) 100%, transparent 0);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: white;
+      box-shadow: 0 4px 20px rgba(255,111,168,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 40px;
+    }
+
+    .logo {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.8rem;
+      color: var(--pink);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 1px;
+    }
+    .logo span { font-size: 1.6rem; }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+    nav ul a {
+      text-decoration: none;
+      font-weight: 700;
+      color: var(--dark);
+      font-size: 0.95rem;
+      transition: color .2s;
+      position: relative;
+    }
+    nav ul a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 3px;
+      background: var(--pink);
+      border-radius: 99px;
+      transition: width .3s;
+    }
+    nav ul a:hover { color: var(--pink); }
+    nav ul a:hover::after { width: 100%; }
+
+    .nav-btn {
+      background: var(--pink);
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 99px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 15px rgba(255,111,168,0.4);
+    }
+    .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,111,168,0.5); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 20px;
+      overflow: hidden;
+    }
+
+    .hero-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .blob1 { width: 500px; height: 500px; background: var(--pink);   top: -100px; left: -150px; }
+    .blob2 { width: 400px; height: 400px; background: var(--yellow); bottom: -80px; right: -100px; }
+    .blob3 { width: 300px; height: 300px; background: var(--mint);   top: 50%; left: 50%; transform: translate(-50%,-50%); }
+
+    .hero-content { position: relative; z-index: 2; max-width: 700px; }
+
+    .badge {
+      display: inline-block;
+      background: var(--yellow);
+      color: var(--brown);
+      font-weight: 800;
+      font-size: 0.8rem;
+      padding: 6px 16px;
+      border-radius: 99px;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      animation: bounceIn 0.6s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      line-height: 1.05;
+      color: var(--dark);
+      animation: slideUp 0.7s ease 0.1s both;
+    }
+    .hero h1 .pink  { color: var(--pink); }
+    .hero h1 .mint  { color: var(--mint); }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: #666;
+      margin: 20px 0 36px;
+      line-height: 1.7;
+      animation: slideUp 0.7s ease 0.2s both;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: slideUp 0.7s ease 0.3s both;
+    }
+    .btn-primary {
+      background: var(--pink);
+      color: white;
+      border: none;
+      padding: 16px 36px;
+      border-radius: 99px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 6px 20px rgba(255,111,168,0.4);
+    }
+    .btn-primary:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 10px 30px rgba(255,111,168,0.5); }
+
+    .btn-outline {
+      background: white;
+      color: var(--pink);
+      border: 2.5px solid var(--pink);
+      padding: 14px 36px;
+      border-radius: 99px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .btn-outline:hover { background: var(--pink); color: white; transform: translateY(-2px); }
+
+    /* Floating cone */
+    .hero-cone {
+      font-size: 8rem;
+      display: block;
+      margin: 0 auto 20px;
+      animation: float 3s ease-in-out infinite;
+      filter: drop-shadow(0 20px 30px rgba(255,111,168,0.3));
+    }
+
+    /* ── STATS STRIP ── */
+    .stats {
+      position: relative; z-index: 1;
+      background: var(--dark);
+      padding: 28px 40px;
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Fredoka One', cursive;
+      font-size: 2rem;
+      color: var(--yellow);
+    }
+    .stat-label { font-size: 0.85rem; color: #aaa; font-weight: 600; }
+
+    /* ── SECTION SHARED ── */
+    section { position: relative; z-index: 1; padding: 80px 40px; }
+    .section-tag {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 5px 14px;
+      border-radius: 99px;
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 12px;
+    }
+    .section-sub { color: #777; font-size: 1rem; max-width: 480px; line-height: 1.7; margin-bottom: 48px; }
+
+    /* ── FLAVOURS ── */
+    #flavours { background: white; }
+    #flavours .section-tag { background: #FFE8F3; color: var(--pink); }
+
+    .flavours-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .flavour-card {
+      border-radius: 24px;
+      padding: 32px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform .3s, box-shadow .3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .flavour-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity .3s;
+      border-radius: inherit;
+    }
+    .flavour-card:hover { transform: translateY(-8px) rotate(-1deg); }
+    .flavour-card:hover::before { opacity: 1; }
+
+    .fc-strawberry { background: #FFF0F5; }
+    .fc-strawberry:hover { box-shadow: 0 20px 50px rgba(255,111,168,0.3); }
+    .fc-strawberry::before { background: linear-gradient(135deg, #FFD6E7, #FFB3CC); }
+
+    .fc-mint { background: #F0FBF9; }
+    .fc-mint:hover { box-shadow: 0 20px 50px rgba(110,221,201,0.3); }
+    .fc-mint::before { background: linear-gradient(135deg, #C8F5EE, #A0EDE2); }
+
+    .fc-mango { background: #FFF8EC; }
+    .fc-mango:hover { box-shadow: 0 20px 50px rgba(255,179,71,0.3); }
+    .fc-mango::before { background: linear-gradient(135deg, #FFE5B4, #FFD080); }
+
+    .fc-lavender { background: #F7F0FF; }
+    .fc-lavender:hover { box-shadow: 0 20px 50px rgba(201,167,255,0.3); }
+    .fc-lavender::before { background: linear-gradient(135deg, #E5D5FF, #D0B8FF); }
+
+    .fc-choco { background: #FBF3EC; }
+    .fc-choco:hover { box-shadow: 0 20px 50px rgba(123,79,46,0.2); }
+    .fc-choco::before { background: linear-gradient(135deg, #E8C9A8, #D4A87A); }
+
+    .fc-rainbow { background: linear-gradient(135deg, #FFF0F5, #F0FBF9, #FFF8EC); }
+    .fc-rainbow:hover { box-shadow: 0 20px 50px rgba(255,217,90,0.3); }
+
+    .flavour-card .icon { font-size: 3.5rem; margin-bottom: 14px; display: block; position: relative; z-index: 1; }
+    .flavour-card h3 { font-family: 'Fredoka One', cursive; font-size: 1.3rem; margin-bottom: 6px; position: relative; z-index: 1; }
+    .flavour-card p { font-size: 0.85rem; color: #888; line-height: 1.5; position: relative; z-index: 1; }
+    .flavour-price {
+      display: inline-block;
+      margin-top: 14px;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--pink);
+      position: relative; z-index: 1;
+    }
+
+    /* ── HOW IT WORKS ── */
+    #how { background: var(--cream); }
+    #how .section-tag { background: #FFF6D6; color: #B8860B; }
+
+    .steps {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      max-width: 1000px;
+      margin: 0 auto;
+      counter-reset: step;
+    }
+    .step {
+      flex: 1;
+      min-width: 200px;
+      text-align: center;
+      padding: 36px 24px;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      transition: transform .3s;
+      position: relative;
+    }
+    .step:hover { transform: translateY(-6px); }
+    .step-num {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--pink);
+      color: white;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.3rem;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      box-shadow: 0 6px 15px rgba(255,111,168,0.4);
+    }
+    .step-icon { font-size: 2.5rem; margin-bottom: 12px; display: block; }
+    .step h3 { font-family: 'Fredoka One', cursive; font-size: 1.2rem; margin-bottom: 8px; }
+    .step p { font-size: 0.88rem; color: #777; line-height: 1.6; }
+
+    /* Arrow between steps */
+    .step:not(:last-child)::after {
+      content: '→';
+      position: absolute;
+      right: -28px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.5rem;
+      color: var(--pink);
+      font-weight: 900;
+    }
+
+    /* ── BESTSELLERS ── */
+    #bestsellers { background: white; }
+    #bestsellers .section-tag { background: #E8F8F5; color: var(--mint); }
+
+    .bestsellers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .product-card {
+      border-radius: 28px;
+      overflow: hidden;
+      background: var(--cream);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+      transition: transform .3s, box-shadow .3s;
+    }
+    .product-card:hover { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(0,0,0,0.12); }
+
+    .product-img {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      position: relative;
+    }
+    .pc-pink   { background: linear-gradient(135deg, #FFD6E7, #FFB3CC); }
+    .pc-mint   { background: linear-gradient(135deg, #C8F5EE, #A0EDE2); }
+    .pc-yellow { background: linear-gradient(135deg, #FFF0AA, #FFD95A); }
+
+    .badge-hot {
+      position: absolute;
+      top: 12px; right: 12px;
+      background: #FF4757;
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 99px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .product-info { padding: 20px 22px 24px; }
+    .product-info h3 { font-family: 'Fredoka One', cursive; font-size: 1.25rem; margin-bottom: 6px; }
+    .product-info p { font-size: 0.85rem; color: #888; margin-bottom: 16px; line-height: 1.5; }
+    .product-footer { display: flex; align-items: center; justify-content: space-between; }
+    .product-price { font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: var(--pink); }
+
+    .add-btn {
+      background: var(--dark);
+      color: white;
+      border: none;
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: background .2s, transform .2s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .add-btn:hover { background: var(--pink); transform: rotate(90deg) scale(1.1); }
+
+    /* ── TESTIMONIALS ── */
+    #reviews { background: var(--dark); padding: 80px 40px; }
+    #reviews .section-tag { background: rgba(255,217,90,0.2); color: var(--yellow); }
+    #reviews .section-title { color: white; }
+    #reviews .section-sub { color: #aaa; }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .review-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 28px;
+      transition: background .3s;
+    }
+    .review-card:hover { background: rgba(255,255,255,0.12); }
+    .stars { font-size: 1rem; margin-bottom: 12px; color: var(--yellow); }
+    .review-card p { color: #ccc; font-size: 0.9rem; line-height: 1.7; margin-bottom: 18px; font-style: italic; }
+    .reviewer { display: flex; align-items: center; gap: 12px; }
+    .avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+    .av1 { background: var(--pink); }
+    .av2 { background: var(--mint); }
+    .av3 { background: var(--yellow); }
+    .reviewer-info strong { color: white; font-size: 0.9rem; display: block; }
+    .reviewer-info span { color: #777; font-size: 0.8rem; }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      position: relative; z-index: 1;
+      background: linear-gradient(135deg, var(--pink), var(--lavender));
+      padding: 70px 40px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .cta-banner::before {
+      content: '🍦🍨🍧🍦🍨🍧';
+      position: absolute;
+      top: -20px; left: 0;
+      font-size: 4rem;
+      opacity: 0.15;
+      white-space: nowrap;
+      letter-spacing: 20px;
+      animation: scrollText 12s linear infinite;
+    }
+    .cta-banner h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: white;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .cta-banner p { color: rgba(255,255,255,0.85); font-size: 1rem; margin-bottom: 32px; position: relative; }
+    .cta-input-wrap {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+    }
+    .cta-input {
+      padding: 14px 24px;
+      border-radius: 99px;
+      border: none;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.95rem;
+      width: 280px;
+      outline: none;
+    }
+    .cta-btn {
+      background: var(--dark);
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 99px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      background: #1A0D00;
+      color: #aaa;
+      padding: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    footer .logo { color: var(--pink); font-size: 1.4rem; }
+    footer p { font-size: 0.85rem; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { color: #aaa; text-decoration: none; font-size: 0.85rem; transition: color .2s; }
+    .footer-links a:hover { color: var(--pink); }
+
+    /* ── CART TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 30px; right: 30px;
+      background: var(--dark);
+      color: white;
+      padding: 14px 24px;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      z-index: 999;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all .4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast-icon { font-size: 1.2rem; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(-3deg); }
+      50%       { transform: translateY(-18px) rotate(3deg); }
+    }
+    @keyframes bounceIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+    @keyframes scrollText {
+      from { transform: translateX(-50%); }
+      to   { transform: translateX(0); }
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      nav { padding: 14px 20px; }
+      section { padding: 60px 20px; }
+      .step:not(:last-child)::after { display: none; }
+      .stats { gap: 30px; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo"><span>🍦</span> Scoops & Smiles</div>
+    <ul>
+      <li><a href="#flavours">Flavours</a></li>
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#bestsellers">Bestsellers</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+    </ul>
+    <button class="nav-btn" onclick="showToast('🛒 Cart is ready!')">Order Now</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-blob blob1"></div>
+    <div class="hero-blob blob2"></div>
+    <div class="hero-blob blob3"></div>
+    <div class="hero-content">
+      <span class="badge">✨ Fresh Daily · Handcrafted</span>
+      <span class="hero-cone">🍦</span>
+      <h1>Life Is Better with the Mugheer bhai<br>With <span class="pink">Ice</span> <span class="mint">Cream</span></h1>
+      <p>Handcrafted scoops made with the finest ingredients.<br>Over 30 flavours to melt your heart every single day.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="document.getElementById('flavours').scrollIntoView({behavior:'smooth'})">
+          🍨 Explore Flavours
+        </button>
+        <button class="btn-outline" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">
+          How It Works
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">30+</div>
+      <div class="stat-label">Flavours</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">50K+</div>
+      <div class="stat-label">Happy Customers</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Natural Ingredients</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">5 ⭐</div>
+      <div class="stat-label">Average Rating</div>
+    </div>
+  </div>
+
+  <!-- FLAVOURS -->
+  <section id="flavours">
+    <div style="max-width:1100px;margin:0 auto;">
+      <div class="section-tag">🍓 Our Flavours</div>
+      <h2 class="section-title">Pick Your Perfect Scoop with the Mugheer bahi</h2>
+      <p class="section-sub">Every flavour is made fresh daily with real fruits, premium cocoa, and a whole lot of love.</p>
+      <div class="flavours-grid">
+        <div class="flavour-card fc-strawberry reveal" onclick="addToCart('Strawberry Dream')">
+          <span class="icon">🍓</span>
+          <h3>Strawberry Dream</h3>
+          <p>Fresh strawberries blended into velvety cream perfection.</p>
+          <span class="flavour-price">$4.99</span>
+        </div>
+        <div class="flavour-card fc-mint reveal" onclick="addToCart('Mint Choco Chip')">
+          <span class="icon">🌿</span>
+          <h3>Mint Choco Chip</h3>
+          <p>Cool, refreshing mint with rich dark chocolate chips.</p>
+          <span class="flavour-price">$5.49</span>
+        </div>
+        <div class="flavour-card fc-mango reveal" onclick="addToCart('Mango Tango')">
+          <span class="icon">🥭</span>
+          <h3>Mango Tango</h3>
+          <p>Tropical Alphonso mangoes churned into sunshine.</p>
+          <span class="flavour-price">$5.49</span>
+        </div>
+        <div class="flavour-card fc-lavender reveal" onclick="addToCart('Lavender Honey')">
+          <span class="icon">💜</span>
+          <h3>Lavender Honey</h3>
+          <p>Floral lavender meets golden wildflower honey.</p>
+          <span class="flavour-price">$5.99</span>
+        </div>
+        <div class="flavour-card fc-choco reveal" onclick="addToCart('Double Chocolate')">
+          <span class="icon">🍫</span>
+          <h3>Double Chocolate</h3>
+          <p>Rich Belgian chocolate with a molten fudge swirl.</p>
+          <span class="flavour-price">$5.49</span>
+        </div>
+        <div class="flavour-card fc-rainbow reveal" onclick="addToCart('Rainbow Sprinkle')">
+          <span class="icon">🌈</span>
+          <h3>Rainbow Sprinkle</h3>
+          <p>A party in every bite. Vanilla with colourful sprinkles.</p>
+          <span class="flavour-price">$4.99</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div style="max-width:1000px;margin:0 auto;">
+      <div class="section-tag">🎯 Process</div>
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-sub">Getting your perfect scoop is as easy as 1, 2, 3!</p>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-num">1</div>
+          <span class="step-icon">🛍️</span>
+          <h3>Choose Your Flavour this is the from the table to the checkmate</h3>
+          <p>Browse our 30+ handcrafted flavours and pick the ones that make your heart sing.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">2</div>
+          <span class="step-icon">🍦</span>
+          <h3>We Scoop It Fresh</h3>
+          <p>Our scoopers craft every order fresh to order — no pre-packed tubs, ever.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">3</div>
+          <span class="step-icon">🚀</span>
+          <h3>Delivered with Smiles</h3>
+          <p>Delivered chilled to your door in 30 minutes or enjoy in-store instantly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BESTSELLERS -->
+  <section id="bestsellers">
+    <div style="max-width:1000px;margin:0 auto;">
+      <div class="section-tag">🔥 Trending</div>
+      <h2 class="section-title">This Week's Bestsellers FROM THE MUGHEER </h2>
+      <p class="section-sub">The scoops everyone keeps coming back for. Order before they sell out!</p>
+      <div class="bestsellers-grid">
+        <div class="product-card reveal">
+          <div class="product-img pc-pink">
+            <span class="badge-hot">🔥 Hot</span>
+            🍓
+          </div>
+          <div class="product-info">
+            <h3>Strawberry MUGHEER BHAI Sundae</h3>
+            <p>Three scoops of strawberry dream topped with whipped cream & sprinkles.</p>
+            <div class="product-footer">
+              <span class="product-price">$8.99</span>
+              <button class="add-btn" onclick="addToCart('Strawberry Sundae')">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="product-card reveal">
+          <div class="product-img pc-mint">
+            🍨
+          </div>
+          <div class="product-info">
+            <h3>Mint MUGheer Parfait</h3>
+            <p>Layered mint choco chip with granola, fresh berries and honey drizzle.</p>
+            <div class="product-footer">
+              <span class="product-price">$9.49</span>
+              <button class="add-btn" onclick="addToCart('Mint Parfait')">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="product-card reveal">
+          <div class="product-img pc-yellow">
+            <span class="badge-hot">⭐ New</span>
+            🧁
+          </div>
+          <div class="product-info">
+            <h3>Mango Waffle Cup</h3>
+            <p>Fresh mango ice cream served in a warm crispy waffle cup. Irresistible.</p>
+            <div class="product-footer">
+              <span class="product-price">$10.99</span>
+              <button class="add-btn" onclick="addToCart('Mango Waffle Cup')">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section id="reviews">
+    <div style="max-width:1000px;margin:0 auto;">
+      <div class="section-tag">💬 Reviews</div>
+      <h2 class="section-title">What People Are Saying</h2>
+      <p class="section-sub">Over 50,000 happy customers and counting. Here's what they love.</p>
+      <div class="reviews-grid">
+        <div class="review-card reveal">
+          <div class="stars">★★★★★</div>
+          <p>"The Lavender Honey scoop literally changed my life. I've had it 7 times this month and I regret nothing."</p>
+          <div class="reviewer">
+            <div class="avatar av1">S</div>
+            <div class="reviewer-info">
+              <strong>Sofia M.</strong>
+              <span>Verified Customer</span>
+            </div>
+          </div>
+        </div>
+        <div class="review-card reveal">
+          <div class="stars">★★★★★</div>
+          <p>"Ordered the Mango Waffle Cup and it arrived perfectly chilled. Tastes like summer in every single bite!"</p>
+          <div class="reviewer">
+            <div class="avatar av2">J</div>
+            <div class="reviewer-info">
+              <strong>James R.</strong>
+              <span>Verified Customer</span>
+            </div>
+          </div>
+        </div>
+        <div class="review-card reveal">
+          <div class="stars">★★★★★</div>
+          <p>"Finally an ice cream place that uses REAL ingredients. You can taste the difference. Never going back!"</p>
+          <div class="reviewer">
+            <div class="avatar av3">A</div>
+            <div class="reviewer-info">
+              <strong>Aisha K.</strong>
+              <span>Verified Customer</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <div class="cta-banner">
+    <h2>Get 10% Off Your First Order 🎉</h2>
+    <p>Subscribe and never miss a new flavour drop again.</p>
+    <div class="cta-input-wrap">
+      <input class="cta-input" type="email" placeholder="your@email.com" />
+      <button class="cta-btn" onclick="showToast('🎉 You\'re in! 10% off incoming!')">Claim Discount</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="logo">🍦 Scoops & Smiles</div>
+    <p>© 2025 Scoops & Smiles. Made with 🍓 and love.</p>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+    </div>
+  </footer>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">
+    <span class="toast-icon">🍦</span>
+    <span id="toast-msg">Added to cart!</span>
+  </div>
+
+  <script>
+    // ── Scroll Reveal ──
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(r => observer.observe(r));
+
+    // ── Toast ──
+    let toastTimer;
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function addToCart(item) {
+      showToast(`🛒 "${item}" added to cart!`);
+    }
+
+    // ── Smooth active nav ──
+    const sections = document.querySelectorAll('section[id]');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 100) current = s.id;
+      });
+      document.querySelectorAll('nav ul a').forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + current ? 'var(--pink)' : '';
+      });
+    });
+  </script>
+</body>
+</html>
